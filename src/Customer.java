@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Customer {
 
     // Attributes
-    private String customerID = String.valueOf(generateCustomerID());
+    private String customerID;
     private String forename;
     private String surname;
     private String street;
@@ -15,7 +15,7 @@ public class Customer {
     // Main Constructor
     public Customer(String forename, String surname, String street, String town, String postcode) {
 
-        this.customerID = String.valueOf(generateCustomerID());
+        this.customerID = generateCustomerID();
         this.forename = forename;
         this.surname = surname;
         this.street = street;
@@ -26,7 +26,7 @@ public class Customer {
     // Secondary Constructor
     public Customer(){
 
-        this.customerID = String.valueOf(generateCustomerID());
+        this.customerID = generateCustomerID();
         this.forename = "Unknown";
         this.surname = "Unknown";
         this.street = "Unknown";
@@ -59,7 +59,7 @@ public class Customer {
     }
 
     // Methods
-    public void getCustomerData() {
+    public boolean getCustomerData() {
 
         // This method asks the user for their information
         System.out.println("<--------- CUSTOMER INFORMATION SYSTEM --------->");
@@ -82,6 +82,14 @@ public class Customer {
 
         System.out.print("Enter your postcode: ");
         this.postcode = input.nextLine();
+
+        if (checkExistingCustomer()) {
+            return false;
+        }
+
+        else {
+            return true;
+        }
     }
 
     public void addCustomerData() {
@@ -258,27 +266,90 @@ public class Customer {
 
     public static String generateCustomerID() {
 
-        // This method generates the incrementing integer customerID
         int customerID = 0;
+
+        File file = new File("Output/CustomerData.csv");
+
+        if (file.exists()) {
+
+            try (BufferedReader reader = new BufferedReader(
+                    new FileReader(file))) {
+
+                String line;
+
+                reader.readLine(); // Skip header
+
+                while ((line = reader.readLine()) != null) {
+
+                    String[] data = line.split(",");
+
+                    if (data[0].startsWith("GR")) {
+
+                        int id = Integer.parseInt(data[0].substring(2));
+
+                        if (id > customerID) {
+                            customerID = id;
+                        }
+                    }
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return String.format("GR%02d", customerID + 1);
+    }
+
+    public void viewTable() {
+        File file = new File("Output/CustomerData.csv");
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(file))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading data.");
+        }
+    }
+
+    public boolean checkExistingCustomer() {
 
         try (BufferedReader reader = new BufferedReader(
                 new FileReader("Output/CustomerData.csv"))) {
 
             String line;
-            reader.readLine(); // Skip header
+
+            reader.readLine(); // Skip CSV header
 
             while ((line = reader.readLine()) != null) {
+
                 String[] data = line.split(",");
 
-                int id = Integer.parseInt(data[0].substring(3));
+                // Check all five customer attributes
+                if (data.length >= 6 &&
+                        data[1].equalsIgnoreCase(this.forename) &&
+                        data[2].equalsIgnoreCase(this.surname) &&
+                        data[3].equalsIgnoreCase(this.street) &&
+                        data[4].equalsIgnoreCase(this.town) &&
+                        data[5].equalsIgnoreCase(this.postcode)) {
 
-                customerID = Math.max(customerID, id);
+                    return true;
+                }
             }
 
+        } catch (FileNotFoundException e) {
+            return false; // No customers registered yet
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return String.format("GR0%d", customerID + 1);
+
+        return false;
     }
 }
 

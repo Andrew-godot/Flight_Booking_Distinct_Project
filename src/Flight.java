@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -23,5 +27,23 @@ public class Flight {
         this.arrivalTime = arrivalTime;
         this.capacity = capacity;
         this.routeID = routeID;
+    }
+
+    public void viewTable() {
+        File file = new File("Output/FlightData.csv");
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(file))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading data.");
+        }
+
     }
 }

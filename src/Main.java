@@ -10,7 +10,7 @@ public class Main {
 
         int choice = 0;
 
-        AccountSystem user = null;
+        AccountManagement user = null;
 
         boolean registered = false;
         boolean login = false;
@@ -40,25 +40,41 @@ public class Main {
 
                     System.out.println("Admin password correct");
 
-                    System.out.println("1: Customer Table\n2: Booking Table\n3: Flight Table\n4: Route Table");
+                    System.out.println("1: Customer Table\n2: Booking Table\n3: Flight Table\n4: Route Table\n5: Exit");
                     int selection = Integer.parseInt(input.nextLine());
 
                     if (selection == 1) {
-                        System.out.println("1: Edit customer\n2: Delete Customer");
+                        System.out.println("1: View Table\n2: Edit Customer\n3: Delete Customer");
                         int adminSelection = Integer.parseInt(input.nextLine());
 
                         if (adminSelection == 1) {
+                            cust1.viewTable();
+                        }
+
+                        else if (adminSelection == 2) {
                             cust1.editCustomerData();
                         } else {
                             cust1.deleteCustomerData();
                         }
+
                     } else if (selection == 2) {
-                        System.out.println("Option 2 Coming Soon");
+                        System.out.println("1: View Table\n2: Edit Booking\n3: Delete Booking");
+                        int adminSelection = Integer.parseInt(input.nextLine());
+
                     } else if (selection == 3) {
-                        System.out.println("Option 3 Coming Soon");
-                    } else {
-                        System.out.println("Option 4 Coming Soon");
+                        System.out.println("1: View Table\n2: Edit Flight\n3: Delete Flight");
+                        int adminSelection = Integer.parseInt(input.nextLine());
+
+                    } else if (selection == 4) {
+                        System.out.println("1: View Table\n2: Edit Route\n3: Delete Route");
+                        int adminSelection = Integer.parseInt(input.nextLine());
                     }
+
+                    else {
+                        System.out.println("Exiting system...");
+                        System.exit(0);
+                    }
+
                 } else {
                     System.out.println("Admin password invalid");
                 }
@@ -70,6 +86,7 @@ public class Main {
 
                 while (selection != 3 && !login) {
 
+                    System.out.println("<--------- CUSTOMER SYSTEM --------->");
                     System.out.println("1: Register\n2: Login\n3: Exit");
                     selection = Integer.parseInt(input.nextLine());
 
@@ -81,19 +98,26 @@ public class Main {
 
                     if (selection == 1) {
 
-                        user = new AccountSystem();
+                        if (!registered) {
+                            user = new AccountManagement();
 
-                        user.accountRegister();
-                        registered = true;
+                            user.accountRegister();
+                            registered = true;
+                        }
+
+                        else {
+                            System.out.println("User has already registered, please log in");
+                        }
 
                     } else if (selection == 2) {
 
-                        if (registered) {
-                            user.accountLogin();
-                            login = true;
-                        } else {
-                            System.out.println("User has not registered yet");
-                        }
+                    if (registered) {
+
+                        login = user.accountLogin();
+
+                    } else {
+                        System.out.println("User has not registered yet");
+                    }
 
                     } else {
                         System.out.println("Exiting system...");
@@ -115,17 +139,31 @@ public class Main {
 
                     if (selection == 1) {
 
-                        System.out.println("Customer selected");
+                        cust1 = new Customer();
 
-                        cust1.getCustomerData();
-                        cust1.addCustomerData();
+                        boolean customerValid = cust1.getCustomerData();
+
+                        if (customerValid) {
+                            cust1.addCustomerData();
+                            System.out.println("Customer successfully created!");
+                        }
+
+                        else {
+                            System.out.println("Customer already exists in file");
+                        }
 
                     } else if (selection == 2) {
 
                         System.out.println("Booking selected");
 
-                        book1.getBookingData();
-                        book1.addBookingData();
+                        book1 = new Booking();
+
+                        boolean bookingValid = book1.getBookingData();
+
+                        if (bookingValid) {
+                            book1.addBookingData();
+                            System.out.println("Booking successfully created!");
+                        }
 
                     } else {
 
