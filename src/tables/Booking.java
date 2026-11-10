@@ -1,3 +1,5 @@
+package tables;
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -57,14 +59,14 @@ public class Booking {
 
                 if (data[0].equals(this.customerID)) {
 
-                    System.out.println("Customer ID was found");
+                    System.out.println("tables.Customer ID was found");
                     found = true;
                     break;
                 }
             }
 
             if (!found) {
-                System.out.println("Customer ID was not found");
+                System.out.println("tables.Customer ID was not found");
                 return false;
             }
 
@@ -75,7 +77,7 @@ public class Booking {
 
             }
 
-            System.out.println("Customer is eligible to book!");
+            System.out.println("tables.Customer is eligible to book!");
 
             System.out.print("Enter amount of adult tickets: ");
             this.adultTicket = Integer.parseInt(input.nextLine());
@@ -85,6 +87,9 @@ public class Booking {
 
             System.out.print("Enter amount of concession tickets: ");
             this.concessionTicket = Integer.parseInt(input.nextLine());
+
+            System.out.print("Enter the flight id for your booking: ");
+            this.flightID = input.nextLine();
 
             return true;
 
@@ -178,5 +183,22 @@ public class Booking {
         }
 
         return false;
+    }
+
+    public void viewTable() {
+        File file = new File("Output/BookingData.csv");
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(file))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading data.");
+        }
     }
 }

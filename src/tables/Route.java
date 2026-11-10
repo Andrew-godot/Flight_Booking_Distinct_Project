@@ -1,7 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+package tables;
+
+import java.io.*;
 
 public class Route {
 
@@ -20,6 +19,31 @@ public class Route {
         this.arriveAt = arriveAt;
         this.midStopOne = midStopOne;
         this.midStopTwo = midStopTwo;
+    }
+
+    public Route() {
+        this.routeID = 0;
+        this.departFrom = "null";
+        this.arriveAt = "null";
+        this.midStopOne = "null";
+        this.midStopTwo = "null";
+    }
+
+    public void addRouteData() {
+
+        File file = new File("Output/RouteData.csv");
+
+        boolean writeHeader = !file.exists() || file.length() == 0;
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(file, true))) {
+
+            if (writeHeader) {
+                System.out.println("Writing CSV header...");
+                writer.println("routeID,departFrom,arriveAt,midStopOne,midStopTwo");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void viewTable() {

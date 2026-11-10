@@ -1,3 +1,5 @@
+package tables;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -151,7 +153,7 @@ public class Customer {
 
                     found = true;
 
-                    System.out.println("Customer Data: " + customers.get(i));
+                    System.out.println("tables.Customer Data: " + customers.get(i));
 
                     System.out.println("Enter the new data in the following format:");
                     System.out.println("(forename),(surname),(street),(town),(postcode)");
@@ -194,7 +196,7 @@ public class Customer {
                     throw new RuntimeException(e);
                 }
 
-                System.out.println("Customer information edited successfully");
+                System.out.println("tables.Customer information edited successfully");
             }
 
         } catch (FileNotFoundException e) {
@@ -230,12 +232,12 @@ public class Customer {
 
                     found = true;
 
-                    System.out.println("Customer found: " + customers.get(i));
+                    System.out.println("tables.Customer found: " + customers.get(i));
 
                     // Remove the matching customer row
                     customers.remove(i);
 
-                    System.out.println("Customer successfully deleted!");
+                    System.out.println("tables.Customer successfully deleted!");
 
                     break;
                 }
@@ -298,7 +300,7 @@ public class Customer {
             }
         }
 
-        return String.format("GR%02d", customerID + 1);
+        return String.format("GR0%02d", customerID + 1);
     }
 
     public void viewTable() {
