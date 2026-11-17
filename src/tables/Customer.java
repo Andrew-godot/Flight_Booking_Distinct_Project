@@ -1,5 +1,7 @@
 package tables;
 
+import data.GlobalData;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,7 +28,7 @@ public class Customer {
     }
 
     // Secondary Constructor
-    public Customer(){
+    public Customer() {
 
         this.customerID = generateCustomerID();
         this.forename = "Unknown";
@@ -36,37 +38,14 @@ public class Customer {
         this.postcode = "Unknown";
     }
 
-    public void setForename(String forename) {
-        this.forename = forename;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public void printInfo() {
-        System.out.printf("CustomerID: %s, Forename: %s, Surname: %s, Street: %s, Town: %s, Postcode: %s", customerID, forename, surname, street, town, postcode);
-    }
+    Scanner input = new Scanner(System.in);
 
     // Methods
+    // Retrieves the customer information from the registered customer
     public boolean getCustomerData() {
 
         // This method asks the user for their information
         System.out.println("<--------- CUSTOMER INFORMATION SYSTEM --------->");
-
-        Scanner input = new Scanner(System.in);
 
         System.out.print("Enter your forename and surname (separated by a space): ");
         String fullname = input.nextLine();
@@ -87,16 +66,14 @@ public class Customer {
 
         if (checkExistingCustomer()) {
             return false;
-        }
-
-        else {
+        } else {
             return true;
         }
     }
 
+    // Retrieves the customer data entered by the customer and adds it to the CustomerData.csv file
     public void addCustomerData() {
 
-        // This method adds the customer information to the csv file called 'CustomerData.csv'
         File file = new File("Output/CustomerData.csv");
 
         System.out.println("File location: " + file.getAbsolutePath());
@@ -105,8 +82,7 @@ public class Customer {
 
         boolean writeHeader = !file.exists() || file.length() == 0;
 
-        try (PrintWriter writer = new PrintWriter(
-                new FileWriter(file, true))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(file, true))) {
 
             if (writeHeader) {
                 writer.println("customerID,forename,surname,street,town,postcode");
@@ -125,9 +101,9 @@ public class Customer {
         }
     }
 
+    // Edits existing customer data (ADMIN ONLY)
     public void editCustomerData() {
 
-        Scanner input = new Scanner(System.in);
         ArrayList<String> customers = new ArrayList<>();
 
         try {
@@ -153,7 +129,7 @@ public class Customer {
 
                     found = true;
 
-                    System.out.println("tables.Customer Data: " + customers.get(i));
+                    System.out.println("Customer Data: " + customers.get(i));
 
                     System.out.println("Enter the new data in the following format:");
                     System.out.println("(forename),(surname),(street),(town),(postcode)");
@@ -167,7 +143,6 @@ public class Customer {
                         return;
                     }
 
-                    // Replace ONLY the matching customer row
                     customers.set(i, customerData[0] + "," +
                             storedData[0] + "," +
                             storedData[1] + "," +
@@ -204,9 +179,9 @@ public class Customer {
         }
     }
 
+    // Deletes existing customer data (ADMIN ONLY)
     public void deleteCustomerData() {
 
-        Scanner input = new Scanner(System.in);
         ArrayList<String> customers = new ArrayList<>();
 
         try {
@@ -263,46 +238,55 @@ public class Customer {
         }
 
 
-
     }
 
+    // Generates the unique customer ID for each customer
     public static String generateCustomerID() {
 
         int customerID = 0;
 
-        File file = new File("Output/CustomerData.csv");
+        File customerFile = new File("Output/CustomerData.csv");
+        File credentialsFile = new File("Output/userCredentials.csv");
 
-        if (file.exists()) {
+        File[] files = {customerFile, credentialsFile};
 
-            try (BufferedReader reader = new BufferedReader(
-                    new FileReader(file))) {
+        for (File file : files) {
 
-                String line;
+            if (file.exists()) {
 
-                reader.readLine(); // Skip header
+                try (BufferedReader reader = new BufferedReader(
+                        new FileReader(file))) {
 
-                while ((line = reader.readLine()) != null) {
+                    String line;
 
-                    String[] data = line.split(",");
+                    if (file.equals(customerFile)) {
+                        reader.readLine();
+                    }
 
-                    if (data[0].startsWith("GR")) {
+                    while ((line = reader.readLine()) != null) {
 
-                        int id = Integer.parseInt(data[0].substring(2));
+                        String[] data = line.split(",");
 
-                        if (id > customerID) {
-                            customerID = id;
+                        if (data.length > 0 && data[0].startsWith("GR")) {
+
+                            int id = Integer.parseInt(data[0].substring(2));
+
+                            if (id > customerID) {
+                                customerID = id;
+                            }
                         }
                     }
-                }
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
-        return String.format("GR0%02d", customerID + 1);
+        return String.format("GR%03d", customerID + 1);
     }
 
+    // Displays the contents of the CustomerData.csv file (ADMIN ONLY)
     public void viewTable() {
         File file = new File("Output/CustomerData.csv");
 
@@ -320,6 +304,7 @@ public class Customer {
         }
     }
 
+    // Checks for an existing customer in CustomerData.csv
     public boolean checkExistingCustomer() {
 
         try (BufferedReader reader = new BufferedReader(
@@ -346,12 +331,145 @@ public class Customer {
             }
 
         } catch (FileNotFoundException e) {
-            return false; // No customers registered yet
+            return false;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         return false;
     }
-}
 
+    // Customer registration system
+    public boolean customerRegister() {
+
+        String username;
+        String password;
+        String confirmPassword;
+
+        System.out.println("<---------- CUSTOMER REGISTER SYSTEM ---------->");
+
+        System.out.print("Username: ");
+        username = input.nextLine();
+
+        System.out.print("Password: ");
+        password = input.nextLine();
+
+        System.out.print("Re-enter password: ");
+        confirmPassword = input.nextLine();
+
+        boolean customerRegistered = false;
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("Output/userCredentials.csv"))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] data = line.split(",");
+
+                if (data.length >= 3 &&
+                        data[1].equals(username)) {
+
+                    customerRegistered = true;
+                    break;
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            // Credentials file does not exist yet.
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (customerRegistered) {
+            System.out.println("User has already registered, please log in.");
+            return true;
+        }
+
+        if (password.equals(confirmPassword)) {
+
+            System.out.println("Registration finished!");
+
+            GlobalData.credentials.add(customerID + "," + username + "," + password);
+
+            try (PrintWriter writer = new PrintWriter(
+                    new FileWriter("Output/userCredentials.csv", true))) {
+
+                writer.printf("%s,%s,%s%n", customerID, username, password);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return true;
+            }
+
+            return false;
+
+        } else {
+            System.out.println("Passwords do not match");
+            return true;
+        }
+    }
+
+    // Customer login system (only after registration)
+    public boolean customerLogin() {
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("Output/userCredentials.csv"))) {
+
+            System.out.println("<---------- CUSTOMER LOGIN SYSTEM ---------->");
+
+            System.out.print("Enter username: ");
+            String username = input.nextLine();
+
+            System.out.print("Enter password: ");
+            String password = input.nextLine();
+
+            String line;
+            boolean login = false;
+            boolean userFound = false;
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] data = line.split(",");
+
+                if (data.length >= 3) {
+
+                    if (data[1].equals(username)) {
+
+                        userFound = true;
+
+                        if (data[2].equals(password)) {
+
+                            login = true;
+
+                            // Store the logged-in customer's ID
+                            GlobalData.loggedInCustomerID = data[0];
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            if (login) {
+                System.out.printf("Login successful! Welcome %s%n", username);
+
+            } else if (!userFound) {
+                System.out.println("Account not found. Please register first.");
+
+            } else {
+                System.out.println("Incorrect password.");
+            }
+
+            return login;
+
+        } catch (FileNotFoundException e) {
+            System.out.println("No accounts found. Please register first.");
+            return false;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

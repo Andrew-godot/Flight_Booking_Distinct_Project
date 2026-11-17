@@ -5,6 +5,8 @@ import tables.Route;
 
 import java.util.Scanner;
 
+import static data.GlobalData.getIntegerInput;
+
 public class Main {
 
     static void main(String[] args) {
@@ -15,30 +17,21 @@ public class Main {
 
         int choice = 0;
 
-        AccountManagement user = null;
-
         boolean registered = false;
         boolean login = false;
 
-        Customer cust1 = new Customer();
-        Booking book1 = new Booking();
-        Flight flight1 = new Flight();
-        Route route1 = new Route();
-
-        flight1.addFlightData();
-        route1.addRouteData();
-
         while (choice != 3) {
 
+            //ADMIN MENU SYSTEM
             System.out.println("<--------- FLIGHT BOOKING SYSTEM --------->");
             System.out.println("1: Admin Login\n2: User Area\n3: Exit");
 
-            choice = Integer.parseInt(input.nextLine());
+            choice = getIntegerInput(input);
 
             while (choice < 1 || choice > 3) {
                 System.out.println("Invalid input, please try again");
                 System.out.println("1: Admin Login\n2: User Area\n3: Exit");
-                choice = Integer.parseInt(input.nextLine());
+                choice = getIntegerInput(input);
             }
 
             if (choice == 1) {
@@ -52,16 +45,17 @@ public class Main {
 
                     int selection = 0;
 
+                    Customer customerAdmin = new Customer();
+                    Booking bookingAdmin = new Booking();
+                    Flight flightAdmin = new Flight();
+                    Route routeAdmin = new Route();
+
                     while (selection != 5) {
 
-                        System.out.println("\n<--------- ADMIN TABLE MENU --------->");
-                        System.out.println("1: Customer Table");
-                        System.out.println("2: Booking Table");
-                        System.out.println("3: Flight Table");
-                        System.out.println("4: Route Table");
-                        System.out.println("5: Exit");
+                        System.out.println("<--------- ADMIN TABLE MENU --------->");
+                        System.out.println("1: Customer Table\n2: Booking Table\n3: Flight Table\n4: Route Table\n5: Exit");
 
-                        selection = Integer.parseInt(input.nextLine());
+                        selection = getIntegerInput(input);
 
                         if (selection == 1) {
 
@@ -69,22 +63,19 @@ public class Main {
 
                             while (adminSelection != 4) {
 
-                                System.out.println("\n<--------- ADMIN CUSTOMER TABLE --------->");
-                                System.out.println("1: View Table");
-                                System.out.println("2: Edit Customer");
-                                System.out.println("3: Delete Customer");
-                                System.out.println("4: Back");
+                                System.out.println("<--------- ADMIN CUSTOMER TABLE --------->");
+                                System.out.println("1: View Table\n2: Edit Customer\n3: Delete Customer\n4: Back");
 
-                                adminSelection = Integer.parseInt(input.nextLine());
+                                adminSelection = getIntegerInput(input);
 
                                 if (adminSelection == 1) {
-                                    cust1.viewTable();
+                                    customerAdmin.viewTable();
 
                                 } else if (adminSelection == 2) {
-                                    cust1.editCustomerData();
+                                    customerAdmin.editCustomerData();
 
                                 } else if (adminSelection == 3) {
-                                    cust1.deleteCustomerData();
+                                    customerAdmin.deleteCustomerData();
                                 }
                             }
 
@@ -94,22 +85,19 @@ public class Main {
 
                             while (adminSelection != 4) {
 
-                                System.out.println("\n<--------- ADMIN BOOKING TABLE --------->");
-                                System.out.println("1: View Table");
-                                System.out.println("2: Edit Booking");
-                                System.out.println("3: Delete Booking");
-                                System.out.println("4: Back");
+                                System.out.println("<--------- ADMIN BOOKING TABLE --------->");
+                                System.out.println("1: View Table\n2: Edit Booking\n3: Delete Booking\n4: Back");
 
-                                adminSelection = Integer.parseInt(input.nextLine());
+                                adminSelection = getIntegerInput(input);
 
                                 if (adminSelection == 1) {
-                                    book1.viewTable();
+                                    bookingAdmin.viewTable();
 
                                 } else if (adminSelection == 2) {
-                                    System.out.println("Edit Booking coming soon");
+                                    bookingAdmin.editBookingData();
 
                                 } else if (adminSelection == 3) {
-                                    System.out.println("Delete Booking coming soon");
+                                    bookingAdmin.deleteBookingData();
                                 }
                             }
 
@@ -117,24 +105,24 @@ public class Main {
 
                             int adminSelection = 0;
 
-                            while (adminSelection != 4) {
+                            while (adminSelection != 5) {
 
-                                System.out.println("\n<--------- ADMIN FLIGHT TABLE --------->");
-                                System.out.println("1: View Table");
-                                System.out.println("2: Edit Flight");
-                                System.out.println("3: Delete Flight");
-                                System.out.println("4: Back");
+                                System.out.println("<--------- ADMIN FLIGHT TABLE --------->");
+                                System.out.println("1: View Table\n2: Edit Flight\n3: Delete Flight\n4: Add Flight\n5: Back");
 
-                                adminSelection = Integer.parseInt(input.nextLine());
+                                adminSelection = getIntegerInput(input);
 
                                 if (adminSelection == 1) {
-                                    flight1.viewTable();
+                                    flightAdmin.viewTable();
 
                                 } else if (adminSelection == 2) {
-                                    System.out.println("Edit Flight coming soon");
+                                    flightAdmin.editFlightData();
 
                                 } else if (adminSelection == 3) {
-                                    System.out.println("Delete Flight coming soon");
+                                    flightAdmin.deleteFlightData();
+
+                                } else if (adminSelection == 4) {
+                                    flightAdmin.addFlightData();
                                 }
                             }
 
@@ -142,24 +130,24 @@ public class Main {
 
                             int adminSelection = 0;
 
-                            while (adminSelection != 4) {
+                            while (adminSelection != 5) {
 
-                                System.out.println("\n<--------- ADMIN ROUTE TABLE --------->");
-                                System.out.println("1: View Table");
-                                System.out.println("2: Edit Route");
-                                System.out.println("3: Delete Route");
-                                System.out.println("4: Back");
+                                System.out.println("<--------- ADMIN ROUTE TABLE --------->");
+                                System.out.println("1: View Table\n2: Edit Route\n3: Delete Route\n4: Add Route\n5: Back");
 
-                                adminSelection = Integer.parseInt(input.nextLine());
+                                adminSelection = getIntegerInput(input);
 
                                 if (adminSelection == 1) {
-                                    route1.viewTable();
+                                    routeAdmin.viewTable();
 
                                 } else if (adminSelection == 2) {
-                                    System.out.println("Edit Route coming soon");
+                                    routeAdmin.editRouteData();
 
                                 } else if (adminSelection == 3) {
-                                    System.out.println("Delete Route coming soon");
+                                    routeAdmin.deleteRouteData();
+
+                                } else if (adminSelection == 4) {
+                                    routeAdmin.addRouteData();
                                 }
                             }
                         }
@@ -176,38 +164,39 @@ public class Main {
 
                 while (selection != 3 && !login) {
 
+                    Customer cust1 = new Customer();
+
+                    //CUSTOMER MENU SYSTEM
                     System.out.println("<--------- CUSTOMER SYSTEM --------->");
                     System.out.println("1: Register\n2: Login\n3: Exit");
-                    selection = Integer.parseInt(input.nextLine());
+                    selection = getIntegerInput(input);
 
                     while (selection < 1 || selection > 3) {
                         System.out.println("Input not valid, please try again");
                         System.out.println("1: Register\n2: Login\n3: Exit");
-                        selection = Integer.parseInt(input.nextLine());
+                        selection = getIntegerInput(input);
                     }
 
                     if (selection == 1) {
 
                         if (!registered) {
-                            user = new AccountManagement();
 
-                            user.accountRegister();
-                            registered = true;
-                        }
+                            cust1 = new Customer();
 
-                        else {
-                            System.out.println("User has already registered, please log in");
+                            boolean customerRegistered = cust1.customerRegister();
+
+                            if (!customerRegistered) {
+
+                                registered = cust1.getCustomerData();
+
+                                if (registered) {
+                                    cust1.addCustomerData();
+                                }
+                            }
                         }
 
                     } else if (selection == 2) {
-
-                    if (registered) {
-
-                        login = user.accountLogin();
-
-                    } else {
-                        System.out.println("User has not registered yet");
-                    }
+                        login = cust1.customerLogin();
 
                     } else {
                         System.out.println("Exiting system...");
@@ -215,36 +204,22 @@ public class Main {
                     }
                 }
 
-                // tables.Customer / tables.Booking / Exit menu
                 while (login) {
 
-                    System.out.println("1: Customer\n2: Booking\n3: Exit");
-                    selection = Integer.parseInt(input.nextLine());
+                    Booking book1 = new Booking();
+
+                    //BOOKING MENU SYSTEM
+                    System.out.println("<--------- BOOKING SYSTEM --------->");
+                    System.out.println("1: Create Booking(s)\n2: View Booking(s)\n3: Exit\n");
+                    selection = getIntegerInput(input);
 
                     while (selection < 1 || selection > 3) {
                         System.out.println("Input not valid, please try again");
-                        System.out.println("1: Customer\n2: Booking\n3: Exit");
-                        selection = Integer.parseInt(input.nextLine());
+                        System.out.println("1: Create Booking(s)\n2: View Booking(s)\n3: Exit\n");
+                        selection = getIntegerInput(input);
                     }
 
                     if (selection == 1) {
-
-                        cust1 = new Customer();
-
-                        boolean customerValid = cust1.getCustomerData();
-
-                        if (customerValid) {
-                            cust1.addCustomerData();
-                            System.out.println("Customer successfully created!");
-                        }
-
-                        else {
-                            System.out.println("Customer already exists in file");
-                        }
-
-                    } else if (selection == 2) {
-
-                        System.out.println("Booking selected");
 
                         book1 = new Booking();
 
@@ -255,8 +230,11 @@ public class Main {
                             System.out.println("Booking successfully created!");
                         }
 
-                    } else {
+                    } else if (selection == 2) {
 
+                        book1.viewBookings();
+
+                    } else {
                         System.out.println("Exiting system...");
                         System.exit(0);
                     }

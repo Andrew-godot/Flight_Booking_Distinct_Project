@@ -1,16 +1,4 @@
 customerID,forename,surname,street,town,postcode
-GR01927,Grant,Reid,12 Dover Heights,Dunfermline,KY7 8HQ
-GR01928,Teressa,Jones,20 High Street,Glasgow,G50 9BH
-GR01929,Jim,Kerr,126 George Street,Manchester,M18 7AP
-GR01930,Steven,Johnstone,24 Dundas Street,Lerwick,ZE2 8QP
-GR01931,Tisa,Sullivan,11 Edinburgh Road,Edinburgh,EH2 9XC
-GR01932,John,Smith,12 Perth Street,London,SE1 2RE
-GR01933,Susan,Brown,7 McLeod Street,Glasgow,G44 2SD
-GR01934,Kim,Pettigrew,2b McArthur Grove,Leven,KY12 8DS
-GR01935,Martin,Daly,17 St. John Street,Prestwick,KA9 1ZA
-GR01936,Pamela,Nowak,8 Halo Avenue,Edinburgh,EH4 8MN
-GR01937,Rudo,Hyper,16 Hay Drive,Birmingham,B1 1AA
-GR01938,Wendy,Russell,72 Sutherland Way,Belfast,BT1 1BT
-GR01939,Lesley,Wallace,144 Western Way,Liverpool,L1 0BG
-GR01940,Ian,Hunter,90a Main Street,Dalkeith,EH1 8LM
-
+GR001,a,b,c,d,e
+GR002,b,c,d,e,f
+GR003,a,b,t,d,e
