@@ -37,6 +37,7 @@ public class Main {
             while (choice < 1 || choice > 3) {
                 System.out.println("Invalid input, please try again");
                 System.out.println("1: Admin Login\n2: User Area\n3: Exit");
+
                 choice = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
             }
 
@@ -50,13 +51,17 @@ public class Main {
 
                     System.out.println("Admin password correct");
 
-                    int selection = 0;
+                    int selection = 0; // Initializes variable selection as 0
 
                     // Creates an admin object for each class for the database
                     Customer customerAdmin = new Customer();
                     Booking bookingAdmin = new Booking();
                     Flight flightAdmin = new Flight();
                     Route routeAdmin = new Route();
+
+
+
+
 
                     // ----- ADMIN -----
 
@@ -94,9 +99,9 @@ public class Main {
 
                         } else if (selection == 2) {
 
-                            int adminSelection = 0;
+                            int adminSelection = 0; // Initializes variable adminSelection as 0
 
-                            while (adminSelection != 4) {
+                            while (adminSelection != 4) { // While loop will run while the adminSelection variable is not 4
 
                                 // ADMIN BOOKING SYSTEM
                                 System.out.println("<--------- ADMIN BOOKING TABLE --------->");
@@ -118,9 +123,9 @@ public class Main {
 
                         } else if (selection == 3) {
 
-                            int adminSelection = 0;
+                            int adminSelection = 0; // Initializes variable adminSelection as 0
 
-                            while (adminSelection != 5) {
+                            while (adminSelection != 5) { // While loop will run while the adminSelection variable is not 5
 
                                 // ADMIN FLIGHT SYSTEM
                                 System.out.println("<--------- ADMIN FLIGHT TABLE --------->");
@@ -145,9 +150,9 @@ public class Main {
 
                         } else if (selection == 4) {
 
-                            int adminSelection = 0;
+                            int adminSelection = 0; // Initializes variable adminSelection as 0
 
-                            while (adminSelection != 5) {
+                            while (adminSelection != 5) { // While loop will run while the adminSelection variable is not 5
 
                                 // ADMIN ROUTE SYSTEM
                                 System.out.println("<--------- ADMIN ROUTE TABLE --------->");
@@ -178,15 +183,19 @@ public class Main {
 
                 break;
 
+
+
+
+
                 // ----- CUSTOMER -----
 
             } else if (choice == 2) {
 
-                int selection = 0;
+                int selection = 0; // Initializes variable Selection as 0
 
-                while (selection != 3 && !login) {
+                while (selection != 3 && !login) { // while loop will run while the selection variable is not 3 and login boolean variable is false
 
-                    Customer cust = new Customer();
+                    Customer cust = new Customer(); // Creates object cust of class Customer
 
                     // CUSTOMER MENU SYSTEM
                     System.out.println("<--------- CUSTOMER SYSTEM --------->");
@@ -199,26 +208,29 @@ public class Main {
                         selection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
                     }
 
+                    // User Registration
                     if (selection == 1) {
 
-                        if (!registered) {
+                        if (!registered) { // Runs if statement code only if registered boolean variable is false
 
-                            cust = new Customer();
+                            cust = new Customer(); // Creates another Customer object and reassigns the reference
 
-                            boolean customerRegistered = cust.customerRegister();
+                            boolean customerRegistered = cust.customerRegister(); // Calls method customerRegister and sets the result of it to the boolean variable customerRegistered
 
-                            if (!customerRegistered) {
+                            if (!customerRegistered) { // Runs if statement code only if customerRegistered boolean variable is false
 
-                                registered = cust.getCustomerData();
+                                registered = cust.getCustomerData(); // Assigns registered boolean variable to result of getCustomerData
 
-                                if (registered) {
-                                    cust.addCustomerData();
+                                if (registered) { // Runs if statement code only if registered variable is true
+                                    cust.addCustomerData(); // Calls method addCustomerData from the customer class
                                 }
                             }
                         }
+                    }
 
-                    } else if (selection == 2) {
-                        login = cust.customerLogin();
+                    // User Login
+                    else if (selection == 2) {
+                        login = cust.customerLogin(); // Calls method customerLogin and sets the result of it to the boolean variable login
 
                     } else {
 
@@ -227,6 +239,10 @@ public class Main {
                         System.exit(0);
                     }
                 }
+
+
+
+
 
                 // ----- BOOKING -----
 
@@ -249,16 +265,16 @@ public class Main {
 
                         book = new Booking();
 
-                        boolean bookingValid = book.getBookingData();
+                        boolean bookingValid = book.getBookingData(); // Initializes bookingValid as boolean variable, calls getBookingData and stores the result in the variable
 
-                        if (bookingValid) {
-                            book.addBookingData();
+                        if (bookingValid) { // If booking is valid
+                            book.addBookingData(); // Calls method addBookingData from Booking class
                             System.out.println("Booking successfully created!");
                         }
 
                     } else if (selection == 2) {
 
-                        book.viewBookings();
+                        book.viewBookings(); // Calls method viewBookings from Booking class
 
                     } else {
 
@@ -273,6 +289,5 @@ public class Main {
         // Exits the system with status 0
         System.out.println("Exiting system...");
         System.exit(0);
-
     }
 }
