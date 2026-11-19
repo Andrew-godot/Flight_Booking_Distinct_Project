@@ -1,37 +1,42 @@
+// Imports the four classes from directory tables
 import tables.Booking;
 import tables.Customer;
 import tables.Flight;
 import tables.Route;
 
-import java.util.Scanner;
+import java.util.Scanner; // Imports the Scanner class fro, java utilities
 
-import static data.GlobalData.getIntegerInput;
+import static data.GlobalData.getIntegerInput; // Imports the static getIntegerInput method from class GlobalData.java
 
+// MAIN CLASS
 public class Main {
 
     static void main(String[] args) {
 
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in); // Creates a scanner object named input
 
-        String adminPassword = "admin1234";
+        String adminPassword = "admin1234"; // Sets the adminPassword as admin1234
 
-        int choice = 0;
+        int choice = 0; // Initializes variable choice as 0
 
+        // Initializes boolean variables
         boolean registered = false;
         boolean login = false;
 
-        while (choice != 3) {
+        // ----- ADMIN -----
 
-            //ADMIN MENU SYSTEM
+        while (choice != 3) { // While loop will run while the choice variable is not 3
+
+            // ADMIN MENU SYSTEM
             System.out.println("<--------- FLIGHT BOOKING SYSTEM --------->");
             System.out.println("1: Admin Login\n2: User Area\n3: Exit");
 
-            choice = getIntegerInput(input);
+            choice = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
             while (choice < 1 || choice > 3) {
                 System.out.println("Invalid input, please try again");
                 System.out.println("1: Admin Login\n2: User Area\n3: Exit");
-                choice = getIntegerInput(input);
+                choice = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
             }
 
             if (choice == 1) {
@@ -45,6 +50,7 @@ public class Main {
 
                     int selection = 0;
 
+                    // Creates admin object for each class for the database
                     Customer customerAdmin = new Customer();
                     Booking bookingAdmin = new Booking();
                     Flight flightAdmin = new Flight();
@@ -55,7 +61,7 @@ public class Main {
                         System.out.println("<--------- ADMIN TABLE MENU --------->");
                         System.out.println("1: Customer Table\n2: Booking Table\n3: Flight Table\n4: Route Table\n5: Exit");
 
-                        selection = getIntegerInput(input);
+                        selection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
                         if (selection == 1) {
 
@@ -66,7 +72,7 @@ public class Main {
                                 System.out.println("<--------- ADMIN CUSTOMER TABLE --------->");
                                 System.out.println("1: View Table\n2: Edit Customer\n3: Delete Customer\n4: Back");
 
-                                adminSelection = getIntegerInput(input);
+                                adminSelection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
                                 if (adminSelection == 1) {
                                     customerAdmin.viewTable();
@@ -88,7 +94,7 @@ public class Main {
                                 System.out.println("<--------- ADMIN BOOKING TABLE --------->");
                                 System.out.println("1: View Table\n2: Edit Booking\n3: Delete Booking\n4: Back");
 
-                                adminSelection = getIntegerInput(input);
+                                adminSelection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
                                 if (adminSelection == 1) {
                                     bookingAdmin.viewTable();
@@ -110,7 +116,7 @@ public class Main {
                                 System.out.println("<--------- ADMIN FLIGHT TABLE --------->");
                                 System.out.println("1: View Table\n2: Edit Flight\n3: Delete Flight\n4: Add Flight\n5: Back");
 
-                                adminSelection = getIntegerInput(input);
+                                adminSelection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
                                 if (adminSelection == 1) {
                                     flightAdmin.viewTable();
@@ -135,7 +141,7 @@ public class Main {
                                 System.out.println("<--------- ADMIN ROUTE TABLE --------->");
                                 System.out.println("1: View Table\n2: Edit Route\n3: Delete Route\n4: Add Route\n5: Back");
 
-                                adminSelection = getIntegerInput(input);
+                                adminSelection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
                                 if (adminSelection == 1) {
                                     routeAdmin.viewTable();
@@ -158,45 +164,48 @@ public class Main {
                 }
 
                 break;
+
+                // ----- CUSTOMER -----
+
             } else if (choice == 2) {
 
                 int selection = 0;
 
                 while (selection != 3 && !login) {
 
-                    Customer cust1 = new Customer();
+                    Customer cust = new Customer();
 
-                    //CUSTOMER MENU SYSTEM
+                    // CUSTOMER MENU SYSTEM
                     System.out.println("<--------- CUSTOMER SYSTEM --------->");
                     System.out.println("1: Register\n2: Login\n3: Exit");
-                    selection = getIntegerInput(input);
+                    selection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
                     while (selection < 1 || selection > 3) {
                         System.out.println("Input not valid, please try again");
                         System.out.println("1: Register\n2: Login\n3: Exit");
-                        selection = getIntegerInput(input);
+                        selection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
                     }
 
                     if (selection == 1) {
 
                         if (!registered) {
 
-                            cust1 = new Customer();
+                            cust = new Customer();
 
-                            boolean customerRegistered = cust1.customerRegister();
+                            boolean customerRegistered = cust.customerRegister();
 
                             if (!customerRegistered) {
 
-                                registered = cust1.getCustomerData();
+                                registered = cust.getCustomerData();
 
                                 if (registered) {
-                                    cust1.addCustomerData();
+                                    cust.addCustomerData();
                                 }
                             }
                         }
 
                     } else if (selection == 2) {
-                        login = cust1.customerLogin();
+                        login = cust.customerLogin();
 
                     } else {
                         System.out.println("Exiting system...");
@@ -204,35 +213,37 @@ public class Main {
                     }
                 }
 
+                // ----- BOOKING -----
+
                 while (login) {
 
-                    Booking book1 = new Booking();
+                    Booking book = new Booking();
 
-                    //BOOKING MENU SYSTEM
+                    // BOOKING MENU SYSTEM
                     System.out.println("<--------- BOOKING SYSTEM --------->");
                     System.out.println("1: Create Booking(s)\n2: View Booking(s)\n3: Exit\n");
-                    selection = getIntegerInput(input);
+                    selection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
 
                     while (selection < 1 || selection > 3) {
                         System.out.println("Input not valid, please try again");
                         System.out.println("1: Create Booking(s)\n2: View Booking(s)\n3: Exit\n");
-                        selection = getIntegerInput(input);
+                        selection = getIntegerInput(input); // Calls method getIntegerInput with input being passed in as parameter
                     }
 
                     if (selection == 1) {
 
-                        book1 = new Booking();
+                        book = new Booking();
 
-                        boolean bookingValid = book1.getBookingData();
+                        boolean bookingValid = book.getBookingData();
 
                         if (bookingValid) {
-                            book1.addBookingData();
+                            book.addBookingData();
                             System.out.println("Booking successfully created!");
                         }
 
                     } else if (selection == 2) {
 
-                        book1.viewBookings();
+                        book.viewBookings();
 
                     } else {
                         System.out.println("Exiting system...");
@@ -241,5 +252,9 @@ public class Main {
                 }
             }
         }
+
+        System.out.println("Exiting system...");
+        System.exit(0);
+
     }
 }
